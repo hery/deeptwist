@@ -9,6 +9,8 @@ import json
 import requests
 
 
+# We can get unique images by chaining the end_cursor as the after parameter of the next GraphQL request
+
 # 10 classes like CIFAR-10
 ASANA_KEYS = [
     'tadasana',
@@ -24,7 +26,7 @@ ASANA_KEYS = [
 ]
 
 
-ASANA_KEY = 'bakasana' # deprecated
+ASANA_KEY = 'virabhadrasana1' # deprecated
 
 
 def purge(dir, pattern):
@@ -55,16 +57,16 @@ def write_image(display_url, path):
 
 if __name__ == "__main__":
     
-    args = sys.argv
-    print(args)
-    build_dirs_flag = args[1]
-    print("build_dirs_flag %s" % build_dirs_flag)
-    if build_dirs_flag:
-        print("Building directories...")
-        build_dirs(ASANA_KEYS)
+    # args = sys.argv
+    # print(args)
+    # build_dirs_flag = args[1]
+    # print("build_dirs_flag %s" % build_dirs_flag)
+    # if build_dirs_flag:
+    #     print("Building directories...")
+    #     build_dirs(ASANA_KEYS)
 
 
-    # image_path = "data/%s/images/" % ASANA_KEY
+    image_path = "data/%s/images/" % ASANA_KEY
     # print("Processing %s...:" % ASANA_KEY)
 
     # Clean up to prevent duplicates
@@ -72,19 +74,19 @@ if __name__ == "__main__":
     # purge('data/', '')
 
     # # Read JSON
-    # json_path = "data/%s/json/" % ASANA_KEY
-    # pathlist = Path(json_path).glob('**/*.json')
-    # for path in pathlist:
-    #     path = str(path)
-    #     data = {}
-    #     with open(path) as f:
-    #         data = json.load(f)
+    json_path = "data/%s/json/" % ASANA_KEY
+    pathlist = Path(json_path).glob('**/*.json')
+    for path in pathlist:
+        path = str(path)
+        data = {}
+        with open(path) as f:
+            data = json.load(f)
 
-        # # Parse JSON and write images
-        # nodes = data["data"]["hashtag"]["edge_hashtag_to_media"]["edges"]
-        # print("Fetching %s images..." % len(nodes))
-        # for node in nodes:
-        #     display_url = node.get("node", {}).get("display_url")
-        #     write_image(display_url, image_path)
+        # Parse JSON and write images
+        nodes = data["data"]["hashtag"]["edge_hashtag_to_media"]["edges"]
+        print("Fetching %s images..." % len(nodes))
+        for node in nodes:
+            display_url = node.get("node", {}).get("display_url")
+            write_image(display_url, image_path)
 
     print("Done!")
