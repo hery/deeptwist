@@ -34,15 +34,16 @@ def purge(dir, pattern):
         if re.search(pattern, f):
             os.remove(os.path.join(dir, f))
 
+def touch(fname, times=None):
+    with open(fname, 'a'):
+        os.utime(fname, times)
 
 def build_dirs(asana_keys):
     for asana_key in asana_keys:
-        image_path = 'data/%s/images' % asana_key
-        json_path = 'data/%s/json' % asana_key
-        if not os.path.exists(image_path):
-            os.makedirs(image_path)
-        if not os.path.exists(json_path):
-            os.makedirs(json_path)
+        class_path = 'data/%s/' % asana_key
+        if not os.path.exists(class_path):
+            os.makedirs(class_path)
+            touch(class_path + '/curl.sh')
 
 
 def write_image(display_url, path):
@@ -56,17 +57,11 @@ def write_image(display_url, path):
 
 
 if __name__ == "__main__":
-    
-    # args = sys.argv
-    # print(args)
-    # build_dirs_flag = args[1]
-    # print("build_dirs_flag %s" % build_dirs_flag)
-    # if build_dirs_flag:
-    #     print("Building directories...")
-    #     build_dirs(ASANA_KEYS)
+
+    build_dirs(ASANA_KEYS)
 
 
-    image_path = "data/%s/images/" % ASANA_KEY
+    # image_path = "data/%s/images/" % ASANA_KEY
     # print("Processing %s...:" % ASANA_KEY)
 
     # Clean up to prevent duplicates
@@ -74,19 +69,19 @@ if __name__ == "__main__":
     # purge('data/', '')
 
     # # Read JSON
-    json_path = "data/%s/json/" % ASANA_KEY
-    pathlist = Path(json_path).glob('**/*.json')
-    for path in pathlist:
-        path = str(path)
-        data = {}
-        with open(path) as f:
-            data = json.load(f)
+    # json_path = "data/%s/json/" % ASANA_KEY
+    # pathlist = Path(json_path).glob('**/*.json')
+    # for path in pathlist:
+    #     path = str(path)
+    #     data = {}
+    #     with open(path) as f:
+    #         data = json.load(f)
 
-        # Parse JSON and write images
-        nodes = data["data"]["hashtag"]["edge_hashtag_to_media"]["edges"]
-        print("Fetching %s images..." % len(nodes))
-        for node in nodes:
-            display_url = node.get("node", {}).get("display_url")
-            write_image(display_url, image_path)
+    #     # Parse JSON and write images
+    #     nodes = data["data"]["hashtag"]["edge_hashtag_to_media"]["edges"]
+    #     print("Fetching %s images..." % len(nodes))
+    #     for node in nodes:
+    #         display_url = node.get("node", {}).get("display_url")
+    #         write_image(display_url, image_path)
 
     print("Done!")
