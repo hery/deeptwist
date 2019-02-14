@@ -1,0 +1,49 @@
+{
+  "id": "6574b983-c3fb-4349-a098-06ae3b34b290",
+  "version": "2.0",
+  "name": "deeptwist",
+  "url": "https://www.instagram.com/",
+  "tests": [{
+    "id": "f3821ba3-97d4-47d8-a86d-6c29720eb270",
+    "name": "bakasana",
+    "commands": [{
+      "id": "c9d2032b-6646-4a9e-a79d-fabed4d20919",
+      "comment": "",
+      "command": "open",
+      "target": "/explore/tags/bakasana/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b092f152-9e57-433a-ac39-63852ab4b4dd",
+      "comment": "",
+      "command": "while",
+      "target": "1",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b603de41-22af-4586-bab3-8f8b7121eaf9",
+      "comment": "",
+      "command": "runScript",
+      "target": "window.scrollTo(0, document.body.scrollHeight)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5ed95ce0-43c7-4137-ac19-f4dcd415ade2",
+      "comment": "",
+      "command": "end",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "5e2622e2-62c0-42e1-ba87-e360ba0659fb",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["f3821ba3-97d4-47d8-a86d-6c29720eb270"]
+  }],
+  "urls": ["https://www.instagram.com/"],
+  "plugins": []
+}
