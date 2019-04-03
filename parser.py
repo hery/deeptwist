@@ -26,13 +26,14 @@ def get_edges(after):
         "variables": json.dumps({
             "tag_name":"bakasana",
             "show_ranked": False,
-            "first": 7,
+            "first": 150,
             "after": after
         })
     }
     r = requests.get(url, params=params, headers=headers)
     res = r.json()
     edges = res['data']['hashtag']['edge_hashtag_to_media']['edges']
+    print("Receveid %s edges" % len(edges))
     end_cursor = res['data']['hashtag']['edge_hashtag_to_media']['page_info']['end_cursor']
     return {
         "edges": edges,
@@ -42,13 +43,22 @@ def get_edges(after):
 def image_from_edge(edge):
     return edge['node']['display_url']
 
-first_edges = get_edges(first)
-first_end_cursor = first_edges.get('end_cursor')
+def get_first_n_batches(n, first=first):
+    if n > 0:
+        batch = get_edges(first)
+        next_cursor = batch.get('end_cursor')
+        get_first_n_batches(n - 1, next_cursor)
+    print('done')
 
-second_edges = get_edges(first_end_cursor)
+# first_edges = get_edges(first)
+# first_end_cursor = first_edges.get('end_cursor')
 
-first_edge = first_edges.get('edges')[0]
-second_edge = second_edges.get('edges')[0]
-print(image_from_edge(first_edge))
-print(image_from_edge(second_edge))
+# second_edges = get_edges(first_end_cursor)
+
+# first_edge = first_edges.get('edges')[0]
+# second_edge = second_edges.get('edges')[0]
+# first_image = image_from_edge(first_edge)
+# second_image = image_from_edge(second_edge)
+
+get_first_n_batches(5)
 
