@@ -40,10 +40,10 @@ def touch(fname, times=None):
 
 def build_dirs(asana_keys):
     for asana_key in asana_keys:
-        class_path = 'data/%s/' % asana_key
+        class_path = 'data/%s/json' % asana_key
         if not os.path.exists(class_path):
             os.makedirs(class_path)
-            touch(class_path + '/curl.sh')
+            # touch(class_path + '/curl.sh')
 
 
 def write_image(display_url, path):
