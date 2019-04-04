@@ -26,14 +26,13 @@ def read_batches():
     pathlist = Path(json_path).glob('**/*.json')
     for path in pathlist:
         path = str(path)
-        data = {}
         with open(path) as fp:
             data = json.load(fp)
             parse_edges(data)
 
 
 def parse_edges(data):
-    for edge in data[:5]:
+    for edge in data:
         node = edge.get('node')
         display_url = node.get('display_url')
         download_and_save_image(display_url)

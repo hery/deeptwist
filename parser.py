@@ -13,8 +13,6 @@ from PIL import Image
 
 
 url = 'https://www.instagram.com/graphql/query/'
-query_hash = "f92f56d47dc7a55b606908374b43a314"
-first = "QVFCR3dNdzBobEZVUnVMTkRWQUNKSTNWdmdyemw0RWktZVB5YkR0ZFAweGV4NWItQnZmdDUyU3Z0dUhGSkdSY0RVU3lxbUFXUUpZbkItZXRCb2NGcnFvSA=="
 headers = {
     "Host": "www.instagram.com",
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:66.0) Gecko/20100101 Firefox/66.0",
@@ -30,11 +28,16 @@ headers = {
     "Cookie": 'mid=W5DvIAAEAAHAxKrvkh4293IS2CO3; mcd=3; ig_cb=1; fbm_124024574287414=base_domain=.instagram.com; shbid=2882; shbts=1554216199.3265219; csrftoken=qYn9WdLPOHjg47lvNSKdEudpqgXNXDH1; ds_user_id=2204414737; sessionid=2204414737%3AyaYnitXJu1SuVo%3A25; rur=ATN; urlgen="{\"217.138.40.54\": 20952}:1hBih1:LV1DhyLYohrwc60pIA_jjx62A7k'
 }
 
+
+QUERY_HASH = "f92f56d47dc7a55b606908374b43a314"
+FIRST_CURSOR = "QVFCR3dNdzBobEZVUnVMTkRWQUNKSTNWdmdyemw0RWktZVB5YkR0ZFAweGV4NWItQnZmdDUyU3Z0dUhGSkdSY0RVU3lxbUFXUUpZbkItZXRCb2NGcnFvSA=="
 ASANA = 'bakasana'
+NUM_BATCHES = 45
+
 
 def get_edges(after):
     params = {
-        "query_hash": query_hash,
+        "query_hash": QUERY_HASH,
         "variables": json.dumps({
             "tag_name":"bakasana",
             "show_ranked": False,
@@ -59,7 +62,7 @@ def write_edge(edge, name='00.json'):
 def image_from_edge(edge):
     return edge['node']['display_url']
 
-def get_first_n_batches(n, first=first):
+def get_first_n_batches(n, first=FIRST_CURSOR):
     if n > 0:
         batch = get_edges(first)
         edge = batch.get('edges')
@@ -70,21 +73,5 @@ def get_first_n_batches(n, first=first):
     else:
         print('Done')
 
-# first_edges = get_edges(first)
-# first_edge = first_edges.get('edges')[0]
-# first_image_url = image_from_edge(first_edge)
-
-# res = requests.get(first_image_url)
-# image_content = res.content
-# i = Image.open(BytesIO(image_content))
-
-# image_name = ntpath.basename(first_image_url)
-# query_location = image_name.find('?')
-# image_name = image_name[:query_location]
-# image_name = 'data/bakasana/%s' % image_name
-# print(image_name)
-
-# i.save(image_name)
-
-get_first_n_batches(5)
+get_first_n_batches(NUM_BATCHES)
 
